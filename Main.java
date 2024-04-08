@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.time.Period;
 
 public class Main 
@@ -21,10 +22,18 @@ public class Main
 
         System.out.println("Введите Отчество:");
         String patronymic = s.nextLine();
-
-        System.out.println("Введите дату рождения (гггг-мм-дд):");
-        String Birthday = s.nextLine();
-        LocalDate birth = LocalDate.parse(Birthday);
+        
+        LocalDate birth = null;
+        while (birth == null)
+        {
+            System.out.println("Введите дату рождения (гггг-мм-дд):");
+            String Birthday = s.nextLine();
+            try {
+                birth = LocalDate.parse(Birthday);
+            } catch (DateTimeParseException e) {
+                System.out.println("Неверный формат даты. Попробуйте снова.");
+            }
+        }
 
         LocalDate currentage = LocalDate.now();
         int age = Period.between(birth, currentage).getYears();
